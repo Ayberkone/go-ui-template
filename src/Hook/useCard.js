@@ -10,8 +10,11 @@ const useCard = item => {
 
     const updateData = () => {
         const dataContext = {
-            url: item.assetList[0].name
-            , header: item.title
+            url: item.assetList[0].name, 
+            header: item.title,
+            categoryList: item.categoryList,
+            description: item.description,
+            game_url: item.url
         };
         setGameContext(dataContext);
     }

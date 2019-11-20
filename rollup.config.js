@@ -8,7 +8,10 @@ import replace from "rollup-plugin-replace";
 import resolve from "rollup-plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 import copy from 'rollup-plugin-copy';
+import postcss from 'rollup-plugin-postcss';
+import postcssModules from 'postcss-modules';
 
+const cssExportMap = {};
 const EXTENSIONS = [".ts", ".tsx", ".js", ".jsx", ".json",".png"];
 const CODES = [
   "THIS_IS_UNDEFINED",
@@ -47,6 +50,20 @@ const commonPlugins = () => [
   }),
   commonjs({
     include: /node_modules/
+  }),
+  postcss({
+    plugins: [
+      postcssModules({
+        getJSON (id, exportTokens) {
+          cssExportMap[id] = exportTokens;
+        }
+      })
+    ],
+    getExportNamed: false,
+    getExport (id) {
+      return cssExportMap[id];
+    },
+    extract: 'dist/styles.css',
   }),
   replace({ "process.env.NODE_ENV": JSON.stringify(env) }),
   resolve({

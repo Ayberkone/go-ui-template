@@ -5,5 +5,6 @@ import '@storybook/addon-viewport/register';
 import data from './data';
 
 
-storiesOf("Home", module).add("default", () => (<Home data={data} />));
+storiesOf("Views", module).add("wide-view", () => (<Home data={data} view='wide' />));
+storiesOf("Views", module).add("tight-view", () => (<Home data={data} view='tight' />));
 
